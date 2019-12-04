@@ -9,12 +9,7 @@
 #define DTXSwizzlingHelper_h
 #if __OBJC__
 
-#if TARGET_OS_IPHONE
-	#import <objc/runtime.h>
-	#import <objc/message.h>
-#else /* TARGET_OS_IPHONE */
-	#import <objc/objc-class.h>
-#endif /* TARGET_OS_IPHONE */
+#import <objc/runtime.h>
 
 #define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
 	if (ERROR_VAR) {	\
@@ -54,14 +49,8 @@ static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 		return NO;
 	}
 	
-	class_addMethod(cls,
-					orig,
-					class_getMethodImplementation(cls, orig),
-					method_getTypeEncoding(origMethod));
-	class_addMethod(cls,
-					alt,
-					class_getMethodImplementation(cls, alt),
-					method_getTypeEncoding(altMethod));
+	class_addMethod(cls, orig, class_getMethodImplementation(cls, orig), method_getTypeEncoding(origMethod));
+	class_addMethod(cls, alt, class_getMethodImplementation(cls, alt), method_getTypeEncoding(altMethod));
 	
 	method_exchangeImplementations(class_getInstanceMethod(cls, orig), class_getInstanceMethod(cls, alt));
 	return YES;
