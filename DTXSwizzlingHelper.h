@@ -108,9 +108,31 @@ static BOOL DTXDynamicallySubclass(id obj, Class target)
 		objc_registerClassPair(cls);
 	}
 	
+	NSMutableDictionary* superRegistrar = objc_getAssociatedObject(obj, "superRegistrar");
+	if(superRegistrar == nil)
+	{
+		superRegistrar = [NSMutableDictionary new];
+	}
+	
+	superRegistrar[NSStringFromClass(target)] = object_getClass(obj);
+	
+	objc_setAssociatedObject(obj, "superRegistrar", superRegistrar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	object_setClass(obj, cls);
 	
 	return YES;
+}
+
+DTX_ALWAYS_INLINE
+static Class DTXDynamicSubclassSuper(id obj, Class dynamic)
+{
+	NSMutableDictionary* superRegistrar = objc_getAssociatedObject(obj, "superRegistrar");
+	Class cls = superRegistrar[NSStringFromClass(dynamic)];
+	if(cls == nil)
+	{
+		cls = class_getSuperclass(object_getClass(obj));
+	}
+	
+	return cls;
 }
 
 #endif /* __OBJC__ */
