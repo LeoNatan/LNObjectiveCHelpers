@@ -31,21 +31,13 @@ static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 {
 	Method origMethod = class_getInstanceMethod(cls, orig);
 	if (!origMethod) {
-#if TARGET_OS_IPHONE
-		SetNSError(error, @"original method %@ not found for class %@", NSStringFromSelector(orig), [cls class]);
-#else /* TARGET_OS_IPHONE */
-		SetNSError(error_, @"original method %@ not found for class %@", NSStringFromSelector(origSel_), [cls className]);
-#endif /* TARGET_OS_IPHONE */
+		SetNSError(error, @"original method %@ not found for class %@", NSStringFromSelector(orig), cls);
 		return NO;
 	}
 	
 	Method altMethod = class_getInstanceMethod(cls, alt);
 	if (!altMethod) {
-#if TARGET_OS_IPHONE
-		SetNSError(error, @"alternate method %@ not found for class %@", NSStringFromSelector(alt), [cls class]);
-#else /* TARGET_OS_IPHONE */
-		SetNSError(error_, @"alternate method %@ not found for class %@", NSStringFromSelector(altSel_), [cls className]);
-#endif /* TARGET_OS_IPHONE */
+		SetNSError(error, @"alternate method %@ not found for class %@", NSStringFromSelector(alt), cls);
 		return NO;
 	}
 	
@@ -60,6 +52,65 @@ DTX_ALWAYS_INLINE
 static BOOL DTXSwizzleClassMethod(Class cls, SEL orig, SEL alt, NSError** error)
 {
 	return DTXSwizzleMethod(GetClass((id)cls), orig, alt, error);
+}
+
+DTX_ALWAYS_INLINE
+static void __DTXCopyMethods(Class orig, Class target)
+{
+	//Copy class methods
+	Class targetMetaclass = object_getClass(target);
+	
+	unsigned int methodCount = 0;
+	Method *methods = class_copyMethodList(object_getClass(orig), &methodCount);
+	
+	for (unsigned int i = 0; i < methodCount; i++)
+	{
+		Method method = methods[i];
+		if(strcmp(sel_getName(method_getName(method)), "load") == 0 || strcmp(sel_getName(method_getName(method)), "initialize") == 0)
+		{
+			continue;
+		}
+		class_addMethod(targetMetaclass, method_getName(method), method_getImplementation(method), method_getTypeEncoding(method));
+	}
+	
+	free(methods);
+	
+	//Copy instance methods
+	methods = class_copyMethodList(orig, &methodCount);
+	
+	for (unsigned int i = 0; i < methodCount; i++)
+	{
+		Method method = methods[i];
+		class_addMethod(target, method_getName(method), method_getImplementation(method), method_getTypeEncoding(method));
+	}
+	
+	free(methods);
+}
+
+DTX_ALWAYS_INLINE
+static BOOL DTXDynamicallySubclass(id obj, Class target)
+{
+	SEL canarySEL = NSSelectorFromString([NSString stringWithFormat:@"__dtx_canaryInTheCoalMine_%@", NSStringFromClass(target)]);
+	if([obj respondsToSelector:canarySEL])
+	{
+		//Already there.
+		return YES;
+	}
+	
+	NSString* clsName = [NSString stringWithFormat:@"%@(%@)", NSStringFromClass(object_getClass(obj)), NSStringFromClass(target)];
+	Class cls = objc_getClass(clsName.UTF8String);
+	
+	if(cls == nil)
+	{
+		cls = objc_allocateClassPair(object_getClass(obj), clsName.UTF8String, 0);
+		__DTXCopyMethods(target, cls);
+		class_addMethod(cls, canarySEL, imp_implementationWithBlock(^ (id _self) {}), "v16@0:8");
+		objc_registerClassPair(cls);
+	}
+	
+	object_setClass(obj, cls);
+	
+	return YES;
 }
 
 #endif /* __OBJC__ */
