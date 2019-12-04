@@ -12,9 +12,9 @@
 #if TARGET_OS_IPHONE
 	#import <objc/runtime.h>
 	#import <objc/message.h>
-#else
+#else /* TARGET_OS_IPHONE */
 	#import <objc/objc-class.h>
-#endif
+#endif /* TARGET_OS_IPHONE */
 
 #define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
 	if (ERROR_VAR) {	\
@@ -38,9 +38,9 @@ static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 	if (!origMethod) {
 #if TARGET_OS_IPHONE
 		SetNSError(error, @"original method %@ not found for class %@", NSStringFromSelector(orig), [cls class]);
-#else
+#else /* TARGET_OS_IPHONE */
 		SetNSError(error_, @"original method %@ not found for class %@", NSStringFromSelector(origSel_), [cls className]);
-#endif
+#endif /* TARGET_OS_IPHONE */
 		return NO;
 	}
 	
@@ -48,9 +48,9 @@ static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 	if (!altMethod) {
 #if TARGET_OS_IPHONE
 		SetNSError(error, @"alternate method %@ not found for class %@", NSStringFromSelector(alt), [cls class]);
-#else
+#else /* TARGET_OS_IPHONE */
 		SetNSError(error_, @"alternate method %@ not found for class %@", NSStringFromSelector(altSel_), [cls className]);
-#endif
+#endif /* TARGET_OS_IPHONE */
 		return NO;
 	}
 	
