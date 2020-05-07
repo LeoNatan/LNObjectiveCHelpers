@@ -118,6 +118,8 @@ dtx_defer {\
 	pthread_mutex_unlock(mutex);\
 };
 
+#define free_if_needed(x) do { if(x != NULL) { free(x); }} while(0)
+
 #define dtx_dispatch_queue_create_autoreleasing(name, attr) dispatch_queue_create(name, dispatch_queue_attr_make_with_autorelease_frequency(attr, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))
 
 #if __has_include("DTXSwizzlingHelper.h")
