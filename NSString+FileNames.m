@@ -1,6 +1,6 @@
 //
 //  NSString+FileNames.m
-//  DetoxInstruments
+//  DTXObjectiveCHelpers
 //
 //  Created by Leo Natan (Wix) on 12/07/2017.
 //  Copyright © 2017-2020 Wix. All rights reserved.

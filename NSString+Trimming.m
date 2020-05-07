@@ -1,6 +1,6 @@
 //
 //  NSString+Trimming.m
-//  DetoxInstruments
+//  DTXObjectiveCHelpers
 //
 //  Created by Leo Natan (Wix) on 3/4/19.
 //  Copyright © 2017-2020 Wix. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  NSMapTable+Subscripting.m
-//  DetoxInstruments
+//  DTXObjectiveCHelpers
 //
 //  Created by Leo Natan (Wix) on 11/27/18.
 //  Copyright © 2017-2020 Wix. All rights reserved.

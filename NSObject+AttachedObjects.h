@@ -1,6 +1,6 @@
 //
 //  NSObject+AttachedObjects.h
-//  DTXProfiler
+//  DTXObjectiveCHelpers
 //
 //  Created by Leo Natan (Wix) on 10/21/18.
 //  Copyright © 2017-2020 Wix. All rights reserved.
