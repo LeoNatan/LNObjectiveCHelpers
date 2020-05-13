@@ -43,6 +43,7 @@ typedef _Atomic(thread_t) atomic_thread;
 #ifdef __OBJC__
 #if __has_include(<Foundation/Foundation.h>)
 #import <Foundation/Foundation.h>
+#endif
 typedef _Atomic(CFRunLoopRef) atomic_cfrunloop;
 #endif
 #endif
@@ -68,11 +69,7 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #endif
 #endif
 
-#ifdef __cplusplus
-#import <Foundation/Foundation.h>
-#else
-@import Foundation;
-#endif
+#ifdef __OBJC__
 
 @interface NSArray <ElementType> (PSPDFSafeCopy)
 - (NSArray <ElementType> *)copy;
