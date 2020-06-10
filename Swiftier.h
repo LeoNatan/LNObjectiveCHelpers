@@ -69,6 +69,13 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #endif
 #endif
 
+DTX_ALWAYS_INLINE
+double DTXDoubleWithMaxFractionLength(double n, NSUInteger k)
+{
+	double p = pow(10.0, k);
+	return round(n * p) / p;
+}
+
 #ifdef __OBJC__
 
 @interface NSArray <ElementType> (PSPDFSafeCopy)
