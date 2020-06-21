@@ -44,6 +44,7 @@ typedef _Atomic(thread_t) atomic_thread;
 #if __has_include(<Foundation/Foundation.h>)
 #import <Foundation/Foundation.h>
 #endif
+typedef _Atomic(NSTimeInterval) atomic_nstimeinterval;
 typedef _Atomic(CFRunLoopRef) atomic_cfrunloop;
 #endif
 #endif
