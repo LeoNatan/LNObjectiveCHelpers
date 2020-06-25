@@ -19,6 +19,9 @@
 #define DTX_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
 #endif
 
+#define dtx_likely(x) __builtin_expect(x, 1)
+#define dtx_unlikely(x) __builtin_expect(x, 0)
+
 #if ! defined(__cplusplus)
 #import <stdatomic.h>
 
@@ -51,10 +54,10 @@ typedef _Atomic(CFRunLoopRef) atomic_cfrunloop;
 
 #define dtx_defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
 #define dtx_defer_block_name(suffix) dtx_defer_block_name_with_prefix(defer_, suffix)
-#define dtx_defer __strong void(^dtx_defer_block_name(__LINE__))(void) __attribute__((cleanup(defer_cleanup_block), unused)) = ^
+#define dtx_defer __strong void(^dtx_defer_block_name(__LINE__))(void) __attribute__((cleanup(dtx_defer_cleanup_block), unused)) = ^
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
-static void defer_cleanup_block(__strong void(^*block)(void)) {
+static void dtx_defer_cleanup_block(__strong void(^*block)(void)) {
 	(*block)();
 }
 #pragma clang diagnostic pop
