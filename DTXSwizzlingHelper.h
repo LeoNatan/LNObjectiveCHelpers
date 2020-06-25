@@ -12,11 +12,12 @@
 #import <objc/runtime.h>
 
 #define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
+	NSString *errStr = [NSString stringWithFormat:@"%s: " FORMAT,FUNC,##__VA_ARGS__]; \
+	NSLog(@"%@", errStr); \
 	if (ERROR_VAR) {	\
-		NSString *errStr = [NSString stringWithFormat:@"%s: " FORMAT,FUNC,##__VA_ARGS__]; \
 		*ERROR_VAR = [NSError errorWithDomain:@"NSCocoaErrorDomain" \
 										 code:-1	\
-									 userInfo:[NSDictionary dictionaryWithObject:errStr forKey:NSLocalizedDescriptionKey]]; \
+									 userInfo:@{NSLocalizedDescriptionKey:errStr}]; \
 	}
 #define SetNSError(ERROR_VAR, FORMAT,...) SetNSErrorFor(__func__, ERROR_VAR, FORMAT, ##__VA_ARGS__)
 

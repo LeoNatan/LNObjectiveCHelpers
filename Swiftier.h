@@ -60,6 +60,9 @@ static void defer_cleanup_block(__strong void(^*block)(void)) {
 #pragma clang diagnostic pop
 
 #ifdef __OBJC__
+#define __superload load { @autoreleasepool { [self class]; } }\
++ (void)initialize
+
 #define NS(x) ((__bridge id)x)
 #define CF(x) ((__bridge CFTypeRef)x)
 #define PTR(x) ((__bridge void*)x)
