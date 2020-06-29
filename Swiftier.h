@@ -137,4 +137,6 @@ dtx_defer {\
 #import "DTXSwizzlingHelper.h"
 #endif
 
+#define if_unavailable(...) if(@available(__VA_ARGS__)) {} else
+
 #endif /* Swiftier_pch */
