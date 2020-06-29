@@ -11,9 +11,16 @@
 
 #import <objc/runtime.h>
 
+#ifdef DEBUG
+#define SWIZ_TRAP() raise(SIGTRAP);
+#else
+#define SWIZ_TRAP()
+#endif
+
 #define SetNSErrorFor(FUNC, ERROR_VAR, FORMAT,...)	\
 	NSString *errStr = [NSString stringWithFormat:@"%s: " FORMAT,FUNC,##__VA_ARGS__]; \
 	NSLog(@"%@", errStr); \
+	SWIZ_TRAP() \
 	if (ERROR_VAR) {	\
 		*ERROR_VAR = [NSError errorWithDomain:@"NSCocoaErrorDomain" \
 										 code:-1	\
