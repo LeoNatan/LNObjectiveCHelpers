@@ -10,9 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSArray (Utils)
+@interface NSArray<ObjectType> (Utils)
 
-- (instancetype)dtx_mapObjectsUsingBlock:(id (^)(id obj, NSUInteger idx))block;
+- (instancetype)dtx_mapObjectsUsingBlock:(id (^)(ObjectType obj, NSUInteger idx))block;
 
 @end
 
