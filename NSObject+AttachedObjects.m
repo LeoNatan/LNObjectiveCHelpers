@@ -9,6 +9,7 @@
 #import "NSObject+AttachedObjects.h"
 @import ObjectiveC;
 
+DTX_DIRECT_MEMBERS
 @implementation NSObject (AttachedObjects)
 
 - (void)dtx_attachObject:(nullable id)value forKey:(const void*)key;

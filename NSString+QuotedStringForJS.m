@@ -8,6 +8,7 @@
 
 #import "NSString+QuotedStringForJS.h"
 
+DTX_DIRECT_MEMBERS
 @implementation NSString (DTXQuotedStringForJS)
 
 - (NSString*)dtx_quotedStringRepresentationForJS

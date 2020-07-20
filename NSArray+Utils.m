@@ -8,6 +8,7 @@
 
 #import "NSArray+Utils.h"
 
+DTX_DIRECT_MEMBERS
 @implementation NSArray (Utils)
 
 - (instancetype)dtx_mapObjectsUsingBlock:(id (^)(id obj, NSUInteger idx))block

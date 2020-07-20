@@ -139,4 +139,11 @@ dtx_defer {\
 
 #define if_unavailable(...) if(@available(__VA_ARGS__)) {} else
 
+#if defined(__IPHONE_14_0) || defined(__MAC_10_16) || defined(__TVOS_14_0) || defined(__WATCHOS_7_0)
+#define DTX_DIRECT_MEMBERS __attribute__((objc_direct_members))
+#else
+#define DTX_DIRECT_MEMBERS
+#endif
+
+
 #endif /* Swiftier_pch */
