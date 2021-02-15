@@ -1,22 +1,22 @@
 //
-//  DTXAddressInfo.m
-//  DTXObjectiveCHelpers
+//  LNAddressInfo.m
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 07/07/2017.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Created by Leo Natan on 07/07/2017.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
-#import "DTXAddressInfo.h"
+#import "LNAddressInfo.h"
 #include <dlfcn.h>
 #include <cxxabi.h>
 
-static char* (*__dtx_swift_demangle)(const char *mangledName,
+static char* (*__ln_swift_demangle)(const char *mangledName,
 									 size_t mangledNameLength,
 									 char *outputBuffer,
 									 size_t *outputBufferSize,
 									 uint32_t flags);
 
-@implementation DTXAddressInfo
+@implementation LNAddressInfo
 {
 	Dl_info _info;
 }
@@ -25,7 +25,7 @@ static char* (*__dtx_swift_demangle)(const char *mangledName,
 
 + (void)load
 {
-	__dtx_swift_demangle = (char*(*)(const char *, size_t, char *, size_t *, uint32_t))dlsym(RTLD_DEFAULT, "swift_demangle");
+	__ln_swift_demangle = (char*(*)(const char *, size_t, char *, size_t *, uint32_t))dlsym(RTLD_DEFAULT, "swift_demangle");
 }
 
 - (instancetype)initWithAddress:(NSUInteger)_address
@@ -65,7 +65,7 @@ static char* (*__dtx_swift_demangle)(const char *mangledName,
 		BOOL shouldFree = NO;
 		
 		if((demangled = abi::__cxa_demangle(_info.dli_sname, nullptr, nullptr, &status)) != nullptr ||
-		   (__dtx_swift_demangle && (demangled = __dtx_swift_demangle(_info.dli_sname, strlen(_info.dli_sname), nullptr, nullptr, 0)) != nullptr))
+		   (__ln_swift_demangle && (demangled = __ln_swift_demangle(_info.dli_sname, strlen(_info.dli_sname), nullptr, nullptr, 0)) != nullptr))
 		{
 			shouldFree = YES;
 		}

@@ -1,17 +1,17 @@
 //
-//  NSString+DTXQuotedStringForJS.m
-//  DTXObjectiveCHelpers
+//  NSString+LNQuotedStringForJS.m
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 4/22/19.
-//  Copyright © 2019 Wix. All rights reserved.
+//  Created by Leo Natan on 4/22/19.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #import "NSString+QuotedStringForJS.h"
 
-DTX_DIRECT_MEMBERS
-@implementation NSString (DTXQuotedStringForJS)
+LN_DIRECT_MEMBERS
+@implementation NSString (LNQuotedStringForJS)
 
-- (NSString*)dtx_quotedStringRepresentationForJS
+- (NSString*)ln_quotedStringRepresentationForJS
 {
 	NSMutableString* rv = [[self valueForKey:@"quotedStringRepresentation"] mutableCopy];
 	[rv replaceOccurrencesOfString:@"\\U" withString:@"\\u" options:0 range:NSMakeRange(0, rv.length)];

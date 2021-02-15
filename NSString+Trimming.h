@@ -1,15 +1,15 @@
 //
 //  NSString+Trimming.h
-//  DTXObjectiveCHelpers
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 3/4/19.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Created by Leo Natan on 3/4/19.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @interface NSString (Trimming)
 
-- (NSString*)stringByTrimmingWhiteSpace;
+@property (nonatomic, copy, readonly) NSString* ln_stringByTrimmingWhiteSpace;
 
 @end

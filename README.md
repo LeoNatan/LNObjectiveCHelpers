@@ -1,12 +1,10 @@
 # Objective C Helpers
 
-Various Objective C helpers, such as swizzling, Swiftier, etc.
-
-#### Usage of Swizzling Helper
-
-Include the `DTXSwizzlingHelper.h` header file and use the `DTXSwizzleMethod` and `DTXSwizzleClassMethod` as needed.
+Various Objective C helpers, such as swizzling, Swiftier and utilities.
 
 #### Acknowledgements
 
-Thanks to [jrswizzle](https://github.com/rentzsch/jrswizzle) for the idea!
+Originally developed by me for Wix.
+
+Thanks to [jrswizzle](https://github.com/rentzsch/jrswizzle) for Swizzling ideas!
 

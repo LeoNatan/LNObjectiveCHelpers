@@ -1,17 +1,17 @@
 //
 //  NSArray+Utils.m
-//  DTXObjectiveCHelpers
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 5/18/20.
-//  Copyright © 2020 Wix. All rights reserved.
+//  Created by Leo Natan on 5/18/20.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #import "NSArray+Utils.h"
 
-DTX_DIRECT_MEMBERS
+LN_DIRECT_MEMBERS
 @implementation NSArray (Utils)
 
-- (instancetype)dtx_mapObjectsUsingBlock:(id (^)(id obj, NSUInteger idx))block
+- (instancetype)ln_mapObjectsUsingBlock:(id (^)(id obj, NSUInteger idx))block
 {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:[self count]];
     [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

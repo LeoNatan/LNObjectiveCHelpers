@@ -1,12 +1,13 @@
 //
-//  DTXSwizzlingHelper.h
-//  DTXObjectiveCHelpers
+//  LNSwizzlingHelper.h
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 12/4/19.
+//  Created by Leo Natan on 12/4/19.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
-#ifndef DTXSwizzlingHelper_h
-#define DTXSwizzlingHelper_h
+#ifndef LNSwizzlingHelper_h
+#define LNSwizzlingHelper_h
 #if __OBJC__
 
 #import <objc/runtime.h>
@@ -30,12 +31,12 @@
 
 #define GetClass(obj)	object_getClass(obj)
 
-#ifndef DTX_ALWAYS_INLINE
-#define DTX_ALWAYS_INLINE inline __attribute__((__always_inline__))
-#endif /* DTX_ALWAYS_INLINE */
+#ifndef LN_ALWAYS_INLINE
+#define LN_ALWAYS_INLINE inline __attribute__((__always_inline__))
+#endif /* LN_ALWAYS_INLINE */
 
-DTX_ALWAYS_INLINE
-static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
+LN_ALWAYS_INLINE
+static BOOL LNSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 {
 	Method origMethod = class_getInstanceMethod(cls, orig);
 	if (!origMethod) {
@@ -56,14 +57,14 @@ static BOOL DTXSwizzleMethod(Class cls, SEL orig, SEL alt, NSError** error)
 	return YES;
 }
 
-DTX_ALWAYS_INLINE
-static BOOL DTXSwizzleClassMethod(Class cls, SEL orig, SEL alt, NSError** error)
+LN_ALWAYS_INLINE
+static BOOL LNSwizzleClassMethod(Class cls, SEL orig, SEL alt, NSError** error)
 {
-	return DTXSwizzleMethod(GetClass((id)cls), orig, alt, error);
+	return LNSwizzleMethod(GetClass((id)cls), orig, alt, error);
 }
 
-DTX_ALWAYS_INLINE
-static void __DTXCopyMethods(Class orig, Class target)
+LN_ALWAYS_INLINE
+static void __LNCopyMethods(Class orig, Class target)
 {
 	//Copy class methods
 	Class targetMetaclass = object_getClass(target);
@@ -95,10 +96,10 @@ static void __DTXCopyMethods(Class orig, Class target)
 	free(methods);
 }
 
-DTX_ALWAYS_INLINE
-static BOOL DTXDynamicallySubclass(id obj, Class target)
+LN_ALWAYS_INLINE
+static BOOL LNDynamicallySubclass(id obj, Class target)
 {
-	SEL canarySEL = NSSelectorFromString([NSString stringWithFormat:@"__dtx_canaryInTheCoalMine_%@", NSStringFromClass(target)]);
+	SEL canarySEL = NSSelectorFromString([NSString stringWithFormat:@"__ln_canaryInTheCoalMine_%@", NSStringFromClass(target)]);
 	if([obj respondsToSelector:canarySEL])
 	{
 		//Already there.
@@ -111,7 +112,7 @@ static BOOL DTXDynamicallySubclass(id obj, Class target)
 	if(cls == nil)
 	{
 		cls = objc_allocateClassPair(object_getClass(obj), clsName.UTF8String, 0);
-		__DTXCopyMethods(target, cls);
+		__LNCopyMethods(target, cls);
 		class_addMethod(cls, canarySEL, imp_implementationWithBlock(^ (id _self) {}), "v16@0:8");
 		objc_registerClassPair(cls);
 	}
@@ -130,8 +131,8 @@ static BOOL DTXDynamicallySubclass(id obj, Class target)
 	return YES;
 }
 
-DTX_ALWAYS_INLINE
-static Class DTXDynamicSubclassSuper(id obj, Class dynamic)
+LN_ALWAYS_INLINE
+static Class LNDynamicSubclassSuper(id obj, Class dynamic)
 {
 	NSMutableDictionary* superRegistrar = objc_getAssociatedObject(obj, (void*)&objc_setAssociatedObject);
 	Class cls = superRegistrar[NSStringFromClass(dynamic)];
@@ -144,4 +145,4 @@ static Class DTXDynamicSubclassSuper(id obj, Class dynamic)
 }
 
 #endif /* __OBJC__ */
-#endif /* DTXSwizzlingHelper_h */
+#endif /* LNSwizzlingHelper_h */

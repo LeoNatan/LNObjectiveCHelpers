@@ -1,26 +1,26 @@
 //
 //  Swiftier.h
-//  DTXObjectiveCHelpers
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 11/22/17.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Created by Leo Natan on 11/22/17.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #ifndef Swiftier_h
 #define Swiftier_h
 
-#ifndef DTX_NOTHROW
-#define DTX_NOTHROW __attribute__((__nothrow__))
+#ifndef LN_NOTHROW
+#define LN_NOTHROW __attribute__((__nothrow__))
 #endif
-#ifndef DTX_ALWAYS_INLINE
-#define DTX_ALWAYS_INLINE inline __attribute__((__always_inline__))
+#ifndef LN_ALWAYS_INLINE
+#define LN_ALWAYS_INLINE inline __attribute__((__always_inline__))
 #endif
-#ifndef DTX_WARN_UNUSED_RESULT
-#define DTX_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
+#ifndef LN_WARN_UNUSED_RESULT
+#define LN_WARN_UNUSED_RESULT __attribute__((__warn_unused_result__))
 #endif
 
-#define dtx_likely(x) __builtin_expect(x, 1)
-#define dtx_unlikely(x) __builtin_expect(x, 0)
+#define ln_likely(x) __builtin_expect(x, 1)
+#define ln_unlikely(x) __builtin_expect(x, 0)
 
 #if ! defined(__cplusplus)
 #import <stdatomic.h>
@@ -53,12 +53,12 @@ typedef _Atomic(CFRunLoopRef) atomic_cfrunloop;
 #endif
 #endif
 
-#define dtx_defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
-#define dtx_defer_block_name(suffix) dtx_defer_block_name_with_prefix(defer_, suffix)
-#define dtx_defer __strong void(^dtx_defer_block_name(__LINE__))(void) __attribute__((cleanup(dtx_defer_cleanup_block), unused)) = ^
+#define ln_defer_block_name_with_prefix(prefix, suffix) prefix ## suffix
+#define ln_defer_block_name(suffix) ln_defer_block_name_with_prefix(defer_, suffix)
+#define ln_defer __strong void(^ln_defer_block_name(__LINE__))(void) __attribute__((cleanup(ln_defer_cleanup_block), unused)) = ^
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-function"
-static void dtx_defer_cleanup_block(__strong void(^*block)(void)) {
+static void ln_defer_cleanup_block(__strong void(^*block)(void)) {
 	(*block)();
 }
 #pragma clang diagnostic pop
@@ -77,8 +77,8 @@ static void dtx_defer_cleanup_block(__strong void(^*block)(void)) {
 #endif
 #endif
 
-DTX_ALWAYS_INLINE
-double DTXDoubleWithMaxFractionLength(double n, NSUInteger k)
+LN_ALWAYS_INLINE
+double LNDoubleWithMaxFractionLength(double n, NSUInteger k)
 {
 	double p = pow(10.0, k);
 	return round(n * p) / p;
@@ -126,24 +126,24 @@ double DTXDoubleWithMaxFractionLength(double n, NSUInteger k)
 
 #define pthread_mutex_lock_deferred_unlock(mutex) \
 pthread_mutex_lock(mutex);\
-dtx_defer {\
+ln_defer {\
 	pthread_mutex_unlock(mutex);\
 };
 
 #define free_if_needed(x) do { if(x != NULL) { free(x); }} while(0)
 
-#define dtx_dispatch_queue_create_autoreleasing(name, attr) dispatch_queue_create(name, dispatch_queue_attr_make_with_autorelease_frequency(attr, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))
+#define ln_dispatch_queue_create_autoreleasing(name, attr) dispatch_queue_create(name, dispatch_queue_attr_make_with_autorelease_frequency(attr, DISPATCH_AUTORELEASE_FREQUENCY_WORK_ITEM))
 
-#if __has_include("DTXSwizzlingHelper.h")
-#import "DTXSwizzlingHelper.h"
+#if __has_include("LNSwizzlingHelper.h")
+#import "LNSwizzlingHelper.h"
 #endif
 
 #define if_unavailable(...) if(@available(__VA_ARGS__)) {} else
 
 #if defined(__IPHONE_14_0) || defined(__MAC_10_16) || defined(__TVOS_14_0) || defined(__WATCHOS_7_0)
-#define DTX_DIRECT_MEMBERS __attribute__((objc_direct_members))
+#define LN_DIRECT_MEMBERS __attribute__((objc_direct_members))
 #else
-#define DTX_DIRECT_MEMBERS
+#define LN_DIRECT_MEMBERS
 #endif
 
 

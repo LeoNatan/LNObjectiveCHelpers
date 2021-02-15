@@ -1,15 +1,15 @@
 //
 //  NSString+QuotedStringForJS.h
-//  DTXObjectiveCHelpers
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 4/22/19.
-//  Copyright © 2019 Wix. All rights reserved.
+//  Created by Leo Natan on 4/22/19.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (DTXQuotedStringForJS)
+@interface NSString (LNQuotedStringForJS)
 
-- (NSString*)dtx_quotedStringRepresentationForJS;
+@property (nonatomic, copy, readonly) NSString* ln_quotedStringRepresentationForJS;
 
 @end

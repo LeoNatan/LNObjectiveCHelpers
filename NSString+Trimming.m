@@ -1,16 +1,16 @@
 //
 //  NSString+Trimming.m
-//  DTXObjectiveCHelpers
+//  LNObjectiveCHelpers
 //
-//  Created by Leo Natan (Wix) on 3/4/19.
-//  Copyright © 2017-2020 Wix. All rights reserved.
+//  Created by Leo Natan on 3/4/19.
+//  Copyright © 2017-2021 Leo Natan. All rights reserved.
 //
 
 #import "NSString+Trimming.h"
 
 @implementation NSString (Trimming)
 
-- (NSString*)stringByTrimmingWhiteSpace
+- (NSString*)ln_stringByTrimmingWhiteSpace
 {
 	return [self stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
 }
