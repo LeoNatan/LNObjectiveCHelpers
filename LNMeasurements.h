@@ -9,9 +9,9 @@
 #ifndef LNMeasurements_h
 #define LNMeasurements_h
 
-#define LNStartTimeMeasurment() CFTimeInterval ___startTime = CACurrentMediaTime();
+#define LNStartTimeMeasurement() CFTimeInterval ___startTime = CACurrentMediaTime();
 
-#define LNEndTimeMeasurment(action) CFTimeInterval ___elapsedTime = CACurrentMediaTime() - ___startTime; \
+#define LNEndTimeMeasurement(action) CFTimeInterval ___elapsedTime = CACurrentMediaTime() - ___startTime; \
 ln_log_info(@"%@ took %f seconds to " action, self.class, ___elapsedTime);
 
 #endif /* LNMeasurements_h */
